@@ -1,0 +1,648 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Vipul – Impact & Growth Report 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet">
+<script src="https://cdn.jsdelivr.net/npm/chart.js@4.4.0/dist/chart.umd.min.js"></script>
+<style>
+:root{
+  --primary:#5b52e8;
+  --accent:#00a88a;
+  --gold:#c9960a;
+  --pink:#d63a7a;
+  --orange:#d4660a;
+  --bg:#f2f1fb;
+  --card:#ffffff;
+  --card2:#ece9fb;
+  --text:#16163a;
+  --muted:#6570a0;
+  --border:rgba(91,82,232,.12);
+  --shadow:0 2px 20px rgba(91,82,232,.08);
+  --shadowhov:0 8px 32px rgba(91,82,232,.16);
+}
+*{margin:0;padding:0;box-sizing:border-box;}
+html,body{width:100%;height:100%;overflow:hidden;
+  background:var(--bg);color:var(--text);
+  font-family:'Inter',system-ui,sans-serif;}
+
+/* ── PARTICLES (soft, light) ── */
+#pts{position:fixed;inset:0;z-index:0;pointer-events:none;}
+
+/* ══ TRACK SLIDER ══ */
+#slider{position:fixed;inset:0;z-index:1;overflow:hidden;}
+#track{display:flex;flex-direction:column;width:100%;will-change:transform;
+  transition:transform .72s cubic-bezier(.77,0,.18,1);}
+.slide{
+  width:100%;height:100vh;flex-shrink:0;
+  display:flex;flex-direction:column;align-items:center;justify-content:center;
+  padding:1.4rem 2.2rem 2.6rem;position:relative;overflow:hidden;
+}
+.slide::before{
+  content:'';position:absolute;top:0;left:0;right:0;height:3px;
+  background:linear-gradient(90deg,transparent,var(--primary),var(--accent),transparent);
+  opacity:.7;
+}
+.slide:nth-child(odd){background:radial-gradient(ellipse at 15% 50%,rgba(91,82,232,.06),transparent 60%);}
+.slide:nth-child(even){background:radial-gradient(ellipse at 85% 50%,rgba(0,168,138,.06),transparent 60%);}
+
+/* stagger anim */
+.a{opacity:0;transform:translateY(24px);transition:opacity .55s ease,transform .55s ease;}
+.slide.on .a{opacity:1;transform:translateY(0);}
+
+/* ══ UI ══ */
+.arr{position:fixed;right:1.3rem;z-index:200;width:38px;height:38px;border-radius:50%;
+  background:var(--card);border:1px solid var(--border);color:var(--primary);
+  box-shadow:var(--shadow);display:flex;align-items:center;justify-content:center;
+  cursor:pointer;font-size:.95rem;transition:all .2s;user-select:none;}
+.arr:hover{background:var(--primary);color:#fff;box-shadow:var(--shadowhov);}
+#aup{top:1.3rem;}#adn{bottom:3rem;}
+#dots{position:fixed;right:1.3rem;top:50%;transform:translateY(-50%);
+  display:flex;flex-direction:column;gap:8px;z-index:200;}
+.dot{width:8px;height:8px;border-radius:50%;background:rgba(91,82,232,.22);
+  cursor:pointer;transition:all .3s;}
+.dot.on{background:var(--primary);transform:scale(1.55);}
+#pgr{position:fixed;left:1.3rem;bottom:1.3rem;z-index:200;
+  font-size:.7rem;color:var(--muted);letter-spacing:1px;}
+
+/* ══ HERO ══ */
+#s0{
+  background:linear-gradient(135deg,#f0eeff 0%,#eaf9f5 50%,#f5f0ff 100%) !important;
+}
+.hero-badge{
+  display:inline-block;padding:12px 32px;
+  border:1.5px solid rgba(91,82,232,.3);border-radius:50px;
+  font-size:1.05rem;color:var(--primary);letter-spacing:2px;text-transform:uppercase;
+  font-family:'Inter',sans-serif;font-weight:700;
+  background:rgba(91,82,232,.06);box-shadow:var(--shadow);
+}
+.hero-name{
+  font-family:'Inter',sans-serif;
+  font-size:clamp(5rem,13vw,10.5rem);
+  font-weight:900;line-height:.95;text-align:center;
+  background:linear-gradient(135deg,#3a32c8 0%,var(--primary) 45%,var(--accent) 100%);
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  letter-spacing:-3px;
+}
+.hero-tagline{
+  font-family:'Inter',sans-serif;
+  font-size:clamp(.9rem,2vw,1.5rem);font-weight:600;text-align:center;
+  color:rgba(91,82,232,.3);letter-spacing:8px;text-transform:uppercase;margin-top:.6rem;
+}
+.hero-divider{
+  width:90px;height:3px;margin:1.4rem auto;
+  background:linear-gradient(90deg,var(--primary),var(--accent));
+  border-radius:3px;
+}
+.hero-brand{
+  font-family:'Inter',sans-serif;
+  font-size:clamp(1rem,1.6vw,1.3rem);font-weight:700;
+  background:linear-gradient(90deg,var(--primary),var(--accent));
+  -webkit-background-clip:text;-webkit-text-fill-color:transparent;background-clip:text;
+  text-align:center;letter-spacing:1.5px;
+}
+.hero-sub{
+  font-family:'Inter',sans-serif;
+  font-size:.95rem;color:var(--muted);text-align:center;margin-top:.45rem;letter-spacing:.5px;
+}
+.hero-content{
+  position:relative;z-index:1;display:flex;flex-direction:column;
+  align-items:center;text-align:center;width:100%;
+}
+.yr{
+  position:absolute;font-size:clamp(8rem,22vw,20rem);font-weight:900;
+  font-family:'Inter',sans-serif;color:transparent;
+  -webkit-text-stroke:2px rgba(91,82,232,.18);
+  letter-spacing:-10px;line-height:1;
+  bottom:-3rem;left:50%;transform:translateX(-50%);
+  white-space:nowrap;pointer-events:none;z-index:0;
+}
+
+/* ══ TYPE ══ */
+.lbl{text-transform:uppercase;letter-spacing:3px;font-size:.68rem;
+  color:var(--accent);font-weight:700;font-family:'Inter',sans-serif;}
+.ttl{
+  font-family:'Inter',sans-serif;
+  font-size:clamp(1.7rem,3vw,2.5rem);font-weight:800;margin:.1rem 0 .7rem;
+  color:var(--text);letter-spacing:-.5px;
+}
+
+/* ══ STAT GRID ══ */
+.sg{display:grid;grid-template-columns:repeat(3,1fr);gap:.8rem;width:100%;max-width:900px;}
+.sc{background:var(--card);border:1px solid var(--border);border-radius:18px;
+  padding:1.1rem 1rem;text-align:center;position:relative;overflow:hidden;
+  box-shadow:var(--shadow);transition:transform .25s,box-shadow .25s;}
+.sc::before{content:'';position:absolute;top:0;left:0;right:0;height:4px;background:var(--ac,var(--primary));}
+.sc:hover{transform:translateY(-4px);box-shadow:var(--shadowhov);}
+.sn{font-size:1.9rem;font-weight:800;color:var(--ac,var(--primary));display:block;font-family:'Inter',sans-serif;letter-spacing:-.5px;}
+.sl{font-size:.75rem;color:var(--muted);margin-top:.3rem;line-height:1.4;}
+
+/* ══ TIMELINE ══ */
+.tl{position:relative;padding-left:2rem;}
+.tl::before{content:'';position:absolute;left:.6rem;top:0;bottom:0;width:2px;
+  background:linear-gradient(180deg,var(--primary),var(--accent));}
+.ti{position:relative;margin-bottom:.75rem;}
+.td{position:absolute;left:-1.55rem;top:.2rem;width:13px;height:13px;border-radius:50%;
+  background:var(--primary);border:3px solid var(--bg);box-shadow:0 0 0 2px var(--primary);}
+.ty{font-size:.6rem;text-transform:uppercase;letter-spacing:2px;color:var(--accent);margin-bottom:.2rem;font-weight:600;}
+.tt{font-size:.9rem;font-weight:700;color:var(--text);margin-bottom:.25rem;}
+.tx{font-size:.76rem;color:var(--muted);line-height:1.6;}
+.b{display:inline-block;padding:3px 10px;border-radius:20px;font-size:.68rem;font-weight:600;margin:.25rem .15rem 0 0;}
+.bg{background:rgba(0,168,138,.1);color:var(--accent);border:1px solid rgba(0,168,138,.3);}
+.bp{background:rgba(91,82,232,.1);color:var(--primary);border:1px solid rgba(91,82,232,.3);}
+.bgo{background:rgba(201,150,10,.1);color:var(--gold);border:1px solid rgba(201,150,10,.3);}
+.bpk{background:rgba(214,58,122,.1);color:var(--pink);border:1px solid rgba(214,58,122,.3);}
+
+/* ══ PROGRESS BARS ══ */
+.pb{margin-bottom:.6rem;}
+.pbl{display:flex;justify-content:space-between;margin-bottom:.3rem;font-size:.78rem;color:var(--text);}
+.pbbg{background:rgba(91,82,232,.08);border-radius:50px;height:9px;overflow:hidden;}
+.pbf{height:100%;border-radius:50px;width:0%;transition:width 1.4s cubic-bezier(.4,0,.2,1);}
+
+/* ══ CHART BOXES ══ */
+.cb{background:var(--card);border:1px solid var(--border);border-radius:20px;
+  padding:1rem 1.3rem .8rem;width:100%;box-shadow:var(--shadow);}
+.cb h3{font-size:1rem;font-weight:700;color:var(--text);margin-bottom:.2rem;}
+.cb p{font-size:.72rem;color:var(--muted);margin-bottom:.6rem;}
+.ch{position:relative;}
+
+/* ══ TILES ══ */
+.tiles{display:grid;grid-template-columns:repeat(4,1fr);gap:1rem;width:100%;max-width:960px;}
+.tile{background:var(--card);border:1px solid var(--border);border-radius:14px;
+  padding:.8rem .7rem;text-align:center;box-shadow:var(--shadow);}
+.tile .big{font-size:1.6rem;font-weight:800;color:var(--primary);display:block;font-family:'Inter',sans-serif;}
+.tile .sm{font-size:.7rem;color:var(--muted);line-height:1.4;margin-top:.25rem;}
+
+/* ══ ACH CARDS ══ */
+.ag3{display:grid;grid-template-columns:repeat(3,1fr);gap:1.1rem;width:100%;max-width:1050px;}
+.ac{background:var(--card);border:1px solid var(--border);border-radius:18px;
+  padding:1.5rem;position:relative;overflow:hidden;box-shadow:var(--shadow);
+  transition:transform .25s,box-shadow .25s;}
+.ac:hover{transform:translateY(-4px);box-shadow:var(--shadowhov);}
+.agw{position:absolute;top:-25px;right:-25px;width:80px;height:80px;border-radius:50%;
+  background:var(--gc,rgba(91,82,232,.06));filter:blur(20px);}
+.ai{font-size:1.8rem;margin-bottom:.6rem;display:block;}
+.ac h3{font-size:1.05rem;font-weight:700;color:var(--text);margin-bottom:.4rem;}
+.ac p{font-size:.9rem;color:var(--muted);line-height:1.58;}
+
+/* ══ ADVANTAGE CARDS ══ */
+.adv-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1.3rem;width:100%;max-width:1060px;}
+.adv-card{
+  background:linear-gradient(135deg,rgba(91,82,232,.05),rgba(0,168,138,.04));
+  border:1.5px solid rgba(91,82,232,.18);border-radius:22px;padding:1.4rem 1.4rem;
+  position:relative;overflow:hidden;text-align:center;box-shadow:var(--shadow);
+  transition:transform .25s,box-shadow .25s;
+}
+.adv-card:hover{transform:translateY(-5px);box-shadow:var(--shadowhov);}
+.adv-icon{font-size:2rem;margin-bottom:.7rem;display:block;}
+.adv-card h3{font-size:1.1rem;font-weight:700;color:var(--primary);margin-bottom:.55rem;}
+.adv-card p{font-size:.88rem;color:var(--muted);line-height:1.65;}
+.adv-glow{position:absolute;top:-20px;right:-20px;width:80px;height:80px;border-radius:50%;
+  background:rgba(91,82,232,.08);filter:blur(25px);}
+
+/* ══ ROADMAP CARDS ══ */
+.rm-grid{display:grid;grid-template-columns:repeat(3,1fr);grid-template-rows:repeat(2,1fr);
+  gap:1.1rem;width:100%;max-width:1100px;height:68vh;}
+.rm-card{
+  background:var(--card);border:1px solid var(--border);border-radius:22px;
+  padding:1.2rem 1.3rem;display:flex;flex-direction:column;justify-content:center;
+  position:relative;overflow:hidden;box-shadow:var(--shadow);
+  transition:transform .28s,box-shadow .28s;
+}
+.rm-card:hover{transform:translateY(-5px) scale(1.01);box-shadow:var(--shadowhov);}
+.rm-card:first-child{
+  background:linear-gradient(135deg,#5b52e8,#00a88a);
+  border-color:transparent;
+}
+.rm-card:first-child .rm-num{color:rgba(255,255,255,.7);}
+.rm-card:first-child .rm-title{color:#fff;}
+.rm-card:first-child .rm-text{color:rgba(255,255,255,.82);}
+.rm-card:first-child strong{color:#ffe68a;}
+.rm-num{font-size:.68rem;font-weight:700;letter-spacing:2px;text-transform:uppercase;
+  color:var(--accent);margin-bottom:.4rem;}
+.rm-icon{font-size:1.6rem;margin-bottom:.5rem;line-height:1;}
+.rm-title{font-size:1.18rem;font-weight:800;color:var(--text);margin-bottom:.55rem;font-family:'Inter',sans-serif;}
+.rm-text{font-size:.95rem;color:var(--muted);line-height:1.6;}
+.rm-glow{position:absolute;bottom:-15px;right:-15px;width:70px;height:70px;border-radius:50%;
+  background:var(--rg,rgba(91,82,232,.08));filter:blur(20px);}
+
+/* ══ ETHICS GRID ══ */
+.eg{display:grid;grid-template-columns:repeat(3,1fr);gap:1rem;width:100%;max-width:1050px;}
+.ec{background:var(--card);border:1px solid rgba(201,150,10,.2);border-radius:18px;
+  padding:1.1rem;box-shadow:var(--shadow);transition:transform .25s;}
+.ec:hover{transform:scale(1.02);}
+.ei{font-size:1.7rem;margin-bottom:.55rem;}
+.ec h3{font-size:1.05rem;font-weight:700;color:var(--gold);margin-bottom:.35rem;}
+.ec p{font-size:.9rem;color:var(--muted);line-height:1.6;}
+
+/* ══ RESULT BOX ══ */
+.rb{background:rgba(0,168,138,.07);border:1.5px solid rgba(0,168,138,.2);border-radius:12px;padding:.6rem .8rem;font-size:.73rem;color:var(--muted);line-height:1.6;}
+.rb strong{color:var(--text);}
+
+/* ══ TWO COL ══ */
+.tc{display:grid;grid-template-columns:1fr 1fr;gap:1.5rem;width:100%;max-width:1100px;align-items:start;}
+
+@keyframes float{0%,100%{transform:translateY(0);}50%{transform:translateY(7px);}}
+</style>
+</head>
+<body>
+<canvas id="pts"></canvas>
+
+<div id="aup" class="arr" onclick="go(-1)">▲</div>
+<div id="adn" class="arr" onclick="go(1)">▼</div>
+<div id="dots"></div>
+<div id="pgr"></div>
+
+<div id="slider"><div id="track">
+
+<!-- ══ 1 · HERO ══ -->
+<div class="slide" id="s0" style="overflow:hidden;">
+  <div class="yr">2026</div>
+  <div class="hero-content" style="margin-top:-10vh">
+    <div class="hero-badge a" style="--d:.08s">🏆 &nbsp; Annual Impact Report</div>
+    <div class="hero-name a" style="margin-top:.8rem;--d:.2s">Vipul</div>
+    <div class="hero-tagline a" style="--d:.32s">Growth &nbsp;·&nbsp; Impact &nbsp;·&nbsp; Leadership</div>
+    <div class="hero-divider a" style="--d:.44s"></div>
+    <div class="hero-brand a" style="--d:.52s">Impact &amp; Growth Report &nbsp;·&nbsp; Ambassador Club</div>
+    <p class="hero-sub a" style="--d:.62s">Data &amp; Automation &nbsp;·&nbsp; 2024 – 2026</p>
+  </div>
+</div>
+
+<!-- ══ 2 · NUMBERS ══ -->
+<div class="slide" id="s1">
+  <div class="lbl a" style="--d:.05s">At a Glance</div>
+  <div class="ttl a" style="--d:.15s">Impact in Numbers</div>
+  <div class="sg">
+    <div class="sc a" style="--ac:#5b52e8;--d:.22s">
+      <span class="sn">~1 min</span><span class="sl">Sheet load time<br><span style="opacity:.55;font-size:.65rem">(was 5–6 hrs)</span></span>
+    </div>
+    <div class="sc a" style="--ac:#00a88a;--d:.3s">
+      <span class="sn" data-target="95" data-suffix="%">0%</span><span class="sl">Reduction in manual formulas</span>
+    </div>
+    <div class="sc a" style="--ac:#c9960a;--d:.38s">
+      <span class="sn" data-target="24" data-suffix="x">0x</span><span class="sl">Kibana speed-up<br><span style="opacity:.55;font-size:.65rem">(2 hr → 5 min)</span></span>
+    </div>
+    <div class="sc a" style="--ac:#d63a7a;--d:.46s">
+      <span class="sn" data-target="30" data-suffix="x">0x</span><span class="sl">Reporting frequency<br><span style="opacity:.55;font-size:.65rem">(monthly → daily)</span></span>
+    </div>
+    <div class="sc a" style="--ac:#d4660a;--d:.54s">
+      <span class="sn" data-target="145000" data-suffix="+">0</span><span class="sl">WhatsApp Community COs Added</span>
+    </div>
+    <div class="sc a" style="--ac:#5b52e8;--d:.62s">
+      <span class="sn" data-target="2" data-suffix="x+">0</span><span class="sl">All-zone performance growth</span>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 3 · JOURNEY ══ -->
+<div class="slide" id="s2">
+  <div class="tc">
+    <div>
+      <div class="lbl a" style="--d:.05s">The Transformation</div>
+      <div class="ttl a" style="--d:.14s">From Manual<br>to Machine</div>
+      <div class="tl">
+        <div class="ti a" style="--d:.22s">
+          <div class="td" style="background:var(--muted)"></div>
+          <div class="ty">Before</div><div class="tt">📋 Manual Drag &amp; Drop</div>
+          <div class="tx">Google Sheets with manually dragged formulas — every update needed human work.</div>
+        </div>
+        <div class="ti a" style="--d:.32s">
+          <div class="td" style="background:#a89cff"></div>
+          <div class="ty">Year 1</div><div class="tt">⚡ Dynamic Single-Formula</div>
+          <div class="tx">One intelligent formula replaced all drags. Auto-connected with Looker Dashboard.</div>
+          <div><span class="b bp">Looker</span><span class="b bg">Auto-updates</span></div>
+        </div>
+        <div class="ti a" style="--d:.42s">
+          <div class="td" style="background:var(--pink)"></div>
+          <div class="ty">Year 2 – Crisis</div><div class="tt">🚨 Google Cuts Limit: 5L → 2L Rows</div>
+          <div class="tx">Sheets took 5–6 hrs to load. Moving DB was too risky. System was broken.</div>
+          <div><span class="b bpk">Critical</span><span class="b bgo">5-6 hr Load</span></div>
+        </div>
+        <div class="ti a" style="--d:.52s">
+          <div class="td" style="background:var(--accent)"></div>
+          <div class="ty">Year 2 – Solution</div><div class="tt">🐍 Python-Powered Zero-Formula Sheets</div>
+          <div class="tx">Python scripts replaced all formulas. Kibana API cut 2-hr tasks to 5–7 min.</div>
+          <div><span class="b bg">0 Formulas</span><span class="b bg">Instant Load</span><span class="b bp">Kibana API</span><span class="b bgo">5-7 Min</span></div>
+        </div>
+      </div>
+    </div>
+    <div style="display:flex;flex-direction:column;gap:.8rem;">
+      <div class="a" style="--d:.2s">
+        <div class="pb"><div class="pbl"><span>Sheet Load Time</span><span style="color:var(--accent);font-weight:600">100% Eliminated</span></div><div class="pbbg"><div class="pbf" style="background:linear-gradient(90deg,#5b52e8,#00a88a)" data-w="100"></div></div></div>
+        <div class="pb"><div class="pbl"><span>Formula Dependency</span><span style="color:var(--accent);font-weight:600">Fully Removed</span></div><div class="pbbg"><div class="pbf" style="background:linear-gradient(90deg,#d63a7a,#d4660a)" data-w="100"></div></div></div>
+        <div class="pb"><div class="pbl"><span>Kibana Task Time</span><span style="color:var(--accent);font-weight:600">–97%</span></div><div class="pbbg"><div class="pbf" style="background:linear-gradient(90deg,#c9960a,#d4660a)" data-w="97"></div></div></div>
+        <div class="pb"><div class="pbl"><span>Report Frequency</span><span style="color:var(--accent);font-weight:600">30x faster</span></div><div class="pbbg"><div class="pbf" style="background:linear-gradient(90deg,#5b52e8,#d63a7a)" data-w="95"></div></div></div>
+        <div class="pb"><div class="pbl"><span>Team Data Visibility</span><span style="color:var(--accent);font-weight:600">Daily</span></div><div class="pbbg"><div class="pbf" style="background:linear-gradient(90deg,#00a88a,#5b52e8)" data-w="100"></div></div></div>
+      </div>
+      <div class="rb a" style="--d:.42s">
+        ✅ All heavy sheets: <strong>0 formulas</strong>, Python-powered<br>
+        ✅ Ambassador-wise reports: <strong>daily updates</strong><br>
+        ✅ 3-month Kibana view: <strong>refreshed daily</strong><br>
+        ✅ Kibana user state: <strong>monthly → daily</strong>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 4 · MAU ══ -->
+<div class="slide" id="s3">
+  <div class="lbl a" style="--d:.05s;text-align:center">Data Intelligence</div>
+  <div class="ttl a" style="--d:.14s;text-align:center">Monthly Active Users – 36 Month Journey</div>
+  <div class="cb a" style="--d:.24s;max-width:1150px;">
+    <h3>📈 Monthly Active Users (MAU)</h3>
+    <p>Sep 2023 – Aug 2026 · Growth from 245 → 1,191 MAU · Strong acceleration from Jan 2026</p>
+    <div class="ch" style="height:360px;"><canvas id="mauChart"></canvas></div>
+  </div>
+</div>
+
+<!-- ══ 5 · PROPERTIES ══ -->
+<div class="slide" id="s4">
+  <div class="lbl a" style="--d:.05s;text-align:center">Data Intelligence</div>
+  <div class="ttl a" style="--d:.14s;text-align:center">Properties Listed – Exponential Growth</div>
+  <div class="cb a" style="--d:.24s;max-width:1150px;">
+    <h3>🏠 Properties Listed</h3>
+    <p>Sep 2023 – Aug 2026 · Scaled from 1K to 20K+ properties · 20x growth over 36 months</p>
+    <div class="ch" style="height:360px;"><canvas id="propChart"></canvas></div>
+  </div>
+</div>
+
+<!-- ══ 6 · DUAL ══ -->
+<div class="slide" id="s5">
+  <div class="lbl a" style="--d:.05s;text-align:center">Data Intelligence</div>
+  <div class="ttl a" style="--d:.14s;text-align:center">MAU vs Properties – Correlated Growth</div>
+  <div class="cb a" style="--d:.24s;max-width:1150px;">
+    <h3>📊 MAU vs Properties – Dual Axis View</h3>
+    <p>Both metrics rose in sync · <span style="color:#5b52e8;font-weight:600">MAU ■</span> &amp; <span style="color:#00a88a;font-weight:600">Properties ■</span> across 36 months</p>
+    <div class="ch" style="height:360px;"><canvas id="dualChart"></canvas></div>
+  </div>
+</div>
+
+<!-- ══ 7 · PAID AB ══ -->
+<div class="slide" id="s6">
+  <div class="ttl a" style="--d:.14s;text-align:center">Paid AB Count – Last 12 Months</div>
+  <div class="tiles a" style="--d:.22s;margin-bottom:.7rem;">
+    <div class="tile" style="border-top:3px solid var(--gold)"><span class="big" style="color:var(--gold)">120</span><span class="sm">Start · Oct 2025</span></div>
+    <div class="tile" style="border-top:3px solid var(--accent)"><span class="big">+167%</span><span class="sm">Growth in 11 Months</span></div>
+    <div class="tile" style="border-top:3px solid var(--pink)"><span class="big" style="color:var(--pink)">323</span><span class="sm">Peak · Jul 2026</span></div>
+    <div class="tile" style="border-top:3px solid var(--primary)"><span class="big">321</span><span class="sm">Latest · Aug 2026</span></div>
+  </div>
+  <div class="cb a" style="--d:.34s;max-width:1100px;">
+    <h3>💰 Paid Ambassador Count – Monthly Trend &nbsp;<span style="color:var(--gold);font-weight:600;font-size:.8rem">+167% in 11 months</span></h3>
+    <p><span style="color:#d4660a">■</span> Oct–Jan &nbsp;<span style="color:#d63a7a">■</span> Feb–May &nbsp;<span style="color:#5b52e8">■</span> Jun–Jul &nbsp;<span style="color:#00a88a">■</span> Peak hold</p>
+    <div class="ch" style="height:265px;"><canvas id="paidAbChart"></canvas></div>
+  </div>
+</div>
+
+<!-- ══ 8 · CAMPAIGN INITIATIVE ══ -->
+<div class="slide" id="s7">
+  <div class="lbl a" style="--d:.05s;text-align:center">Self-Driven Project</div>
+  <div class="ttl a" style="--d:.14s;text-align:center;margin-bottom:.5rem;">Campaign ID Initiative</div>
+  <div class="a" style="--d:.22s;text-align:center;max-width:850px;margin:0 auto 2rem;">
+    <p style="font-size:1.05rem;color:var(--text);line-height:1.6;font-weight:500;">Started own initiative of submitting leads utilizing filtration and automation</p>
+  </div>
+  <div class="ag3" style="grid-template-columns:repeat(3,1fr);gap:1.5rem;max-width:1100px;">
+    <div class="ac a" style="--gc:rgba(91,82,232,.15);--d:.3s;text-align:center;padding:2.5rem 1.5rem;background:linear-gradient(135deg,rgba(91,82,232,.04),rgba(91,82,232,.0));border-color:rgba(91,82,232,.3);">
+      <div class="agw"></div>
+      <span class="ai" style="font-size:3rem;margin-bottom:.8rem;">🎯</span>
+      <div style="font-size:3rem;font-weight:900;color:var(--primary);margin-bottom:.2rem;font-family:'Inter',sans-serif;letter-spacing:-1px;">7,000+</div>
+      <h3 style="font-size:1.15rem;margin-bottom:.3rem;color:var(--text);">Conversions</h3>
+      <p style="font-size:.9rem;color:var(--muted);">Achieved within 5 months</p>
+    </div>
+    <div class="ac a" style="--gc:rgba(0,168,138,.15);--d:.4s;text-align:center;padding:2.5rem 1.5rem;background:linear-gradient(135deg,rgba(0,168,138,.04),rgba(0,168,138,.0));border-color:rgba(0,168,138,.3);">
+      <div class="agw"></div>
+      <span class="ai" style="font-size:3rem;margin-bottom:.8rem;">🏡</span>
+      <div style="font-size:3rem;font-weight:900;color:var(--accent);margin-bottom:.2rem;font-family:'Inter',sans-serif;letter-spacing:-1px;">3,000+</div>
+      <h3 style="font-size:1.15rem;margin-bottom:.3rem;color:var(--text);">Paid Listings</h3>
+      <p style="font-size:.9rem;color:var(--muted);">Generated directly</p>
+    </div>
+    <div class="ac a" style="--gc:rgba(201,150,10,.15);--d:.5s;text-align:center;padding:2.5rem 1.5rem;background:linear-gradient(135deg,rgba(201,150,10,.04),rgba(201,150,10,.0));border-color:rgba(201,150,10,.3);">
+      <div class="agw"></div>
+      <span class="ai" style="font-size:3rem;margin-bottom:.8rem;">💰</span>
+      <div style="font-size:2.8rem;font-weight:900;color:var(--gold);margin-bottom:.4rem;font-family:'Inter',sans-serif;letter-spacing:-1.5px;">10 Lakh+</div>
+      <h3 style="font-size:1.15rem;margin-bottom:.3rem;color:var(--text);">Revenue Saved</h3>
+      <p style="font-size:.9rem;color:var(--muted);">Given back to the company</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 9 · WHATSAPP ══ -->
+<div class="slide" id="s8">
+  <div class="lbl a" style="--d:.05s;text-align:center">New Responsibility</div>
+  <div class="ttl a" style="--d:.14s;text-align:center">WhatsApp Community – COs Growth</div>
+  <div class="tiles a" style="--d:.22s;margin-bottom:.7rem;">
+    <div class="tile" style="border-top:3px solid var(--primary)"><span class="big">145K+</span><span class="sm">COs Added<br>Apr–Aug 2026</span></div>
+    <div class="tile" style="border-top:3px solid var(--accent)"><span class="big">7,426</span><span class="sm">Peak Single Day<br>Jun 27</span></div>
+    <div class="tile" style="border-top:3px solid var(--gold)"><span class="big">3</span><span class="sm">APIs: Starship<br>+ Sheets + AI</span></div>
+    <div class="tile" style="border-top:3px solid var(--pink)"><span class="big">100%</span><span class="sm">Auto Lead Push<br>Daily via Server</span></div>
+  </div>
+  <div class="cb a" style="--d:.33s;max-width:1150px;">
+    <h3>📱 Daily COs Added – Apr to Aug 2026 &nbsp;<span style="font-size:.72rem;font-weight:400;color:var(--muted)"><span style="color:#5b52e8">■</span> Apr–May &nbsp;<span style="color:#00a88a">■</span> Jun &nbsp;<span style="color:#d63a7a">■</span> Jul &nbsp;<span style="color:#d4660a">■</span> Aug</span></h3>
+    <p>Explosive growth — from single digits to 7,426 in a single day</p>
+    <div class="ch" style="height:260px;"><canvas id="waChart"></canvas></div>
+  </div>
+</div>
+
+<!-- ══ 10 · CONVOGEN ══ -->
+<div class="slide" id="s9">
+  <div class="lbl a" style="--d:.05s;text-align:center">Extended Ownership · Convogen</div>
+  <div class="ttl a" style="--d:.14s;text-align:center">Bot Development Work</div>
+  <div class="ag3">
+    <div class="ac a" style="--gc:rgba(214,58,122,.06);--d:.22s"><div class="agw"></div><span class="ai">🎨</span><h3>Painting WhatsApp Bot</h3><p>Full WhatsApp bot with Lead Creation API — designed and implemented end-to-end including CLI tooling.</p></div>
+    <div class="ac a" style="--gc:rgba(0,168,138,.06);--d:.32s"><div class="agw"></div><span class="ai">🏘️</span><h3>Property Listing Fetch API</h3><p>Property listing fetch API in the bot — real-time property data flows directly through WhatsApp.</p></div>
+    <div class="ac a" style="--gc:rgba(91,82,232,.06);--d:.42s"><div class="agw"></div><span class="ai">📊</span><h3>WhatsApp → Google Sheet</h3><p>Automatic bridge writing bot conversation entries into Google Sheets — closing the loop from chat to data.</p></div>
+  </div>
+</div>
+
+<!-- ══ 11 · ADVANTAGES ══ -->
+<div class="slide" id="s10">
+  <div class="lbl a" style="--d:.05s;text-align:center">Result of Additional Responsibility</div>
+  <div class="ttl a" style="--d:.14s;text-align:center">Advantages in Ambassador Club</div>
+  <div class="adv-grid">
+    <div class="adv-card a" style="--d:.22s">
+      <div class="adv-glow"></div>
+      <span class="adv-icon">🔗</span>
+      <h3>Cross-Product Speed</h3>
+      <p>Email summary, 60-Days API logic, Dashboard corrections — product-side issues resolved faster without waiting on Product team.</p>
+    </div>
+    <div class="adv-card a" style="--d:.34s">
+      <div class="adv-glow"></div>
+      <span class="adv-icon">🚀</span>
+      <h3>Campaign Creation Made Easy</h3>
+      <p>Campaigns now self-serve and quick to launch. Better coordination with Outbound via automated lead rejection programs.</p>
+    </div>
+    <div class="adv-card a" style="--d:.46s">
+      <div class="adv-glow"></div>
+      <span class="adv-icon">🛡️</span>
+      <h3>Power / Verified Mapping</h3>
+      <p>Power, Verified, Unverified mapping access — cleaner Ambassador segmentation and better outbound workflow.</p>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 12 · ROADMAP ══ -->
+<div class="slide" id="s11">
+  <div class="lbl a" style="--d:.05s;text-align:center">What's Next</div>
+  <div class="ttl a" style="--d:.13s;text-align:center;margin-bottom:1rem;">Vision &amp; Future Roadmap</div>
+  <div class="rm-grid">
+    <div class="rm-card a" style="--d:.2s">
+      <div class="rm-glow" style="background:rgba(255,255,255,.15)"></div>
+      <div class="rm-num">01 · Priority Vision</div>
+      <div class="rm-icon">🎯</div>
+      <div class="rm-title">50K Listings Vision</div>
+      <div class="rm-text">Two-year target: <strong>50,000 active listings</strong> alongside <strong>5K MAU</strong>.</div>
+    </div>
+    <div class="rm-card a" style="--d:.28s;--rg:rgba(91,82,232,.06)">
+      <div class="rm-glow"></div>
+      <div class="rm-num">02</div><div class="rm-icon">🔍</div>
+      <div class="rm-title">Starship Edit Access</div>
+      <div class="rm-text">Unlock deeper data exploration beyond read-only — better insights, faster decisions.</div>
+    </div>
+    <div class="rm-card a" style="--d:.36s;--rg:rgba(0,168,138,.06)">
+      <div class="rm-glow"></div>
+      <div class="rm-num">03</div><div class="rm-icon">📊</div>
+      <div class="rm-title">Builder Lead Gen via Tech</div>
+      <div class="rm-text">Scripts to generate new Builder &amp; resale leads across social media at scale.</div>
+    </div>
+    <div class="rm-card a" style="--d:.44s;--rg:rgba(201,150,10,.06)">
+      <div class="rm-glow"></div>
+      <div class="rm-num">04</div><div class="rm-icon">💡</div>
+      <div class="rm-title">Ambassador Club Super Platform</div>
+      <div class="rm-text">App, Voice Bot, Chat Bot — one platform for activation, reactivation &amp; onboarding.</div>
+    </div>
+    <div class="rm-card a" style="--d:.52s;--rg:rgba(214,58,122,.06)">
+      <div class="rm-glow"></div>
+      <div class="rm-num">05</div><div class="rm-icon">⚙️</div>
+      <div class="rm-title">Listing Bot + Reactivation Bot</div>
+      <div class="rm-text">Bot auto-creates and posts listings — reducing outbound dependency as a test project.</div>
+    </div>
+    <div class="rm-card a" style="--d:.6s;--rg:rgba(91,82,232,.06)">
+      <div class="rm-glow"></div>
+      <div class="rm-num">06</div><div class="rm-icon">📋</div>
+      <div class="rm-title">Marketing Autonomy</div>
+      <div class="rm-text">Self-serve campaign creation — reduce dependency on Product team for general marketing.</div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ 13 · TEAM ══ -->
+<div class="slide" id="s12">
+  <div class="lbl a" style="--d:.05s;text-align:center">Beyond The Numbers</div>
+  <div class="ttl a" style="--d:.14s;text-align:center">Team, Culture &amp; Leadership</div>
+  <div class="eg">
+    <div class="ec a" style="--d:.22s"><div class="ei">📈</div><h3>2x+ All-Zone Growth</h3><p>All three zones delivered more than 2x growth in a year through better tools, data and empowerment.</p></div>
+    <div class="ec a" style="--d:.3s"><div class="ei">🤝</div><h3>Zero Attrition</h3><p>Dipali (6-month departure risk) and Shirish (3-month risk) still thriving — retained through genuine connection.</p></div>
+    <div class="ec a" style="--d:.38s"><div class="ei">💡</div><h3>Data-Driven Team</h3><p>Members independently understand attempts, conversion %, Ambassador analysis — and act on it themselves.</p></div>
+    <div class="ec a" style="--d:.46s"><div class="ei">🌱</div><h3>Creative Space</h3><p>New joiners encouraged to explore — Builders segment, App for calling, self-led innovations from day one.</p></div>
+    <div class="ec a" style="--d:.54s"><div class="ei">🔗</div><h3>1-on-1 over Meetings</h3><p>Personal bonding over formal meetings — self-discipline, trust, and ownership without top-down pressure.</p></div>
+    <div class="ec a" style="--d:.62s"><div class="ei">🌐</div><h3>Cross-Team Impact</h3><p>DHO Bot + WhatsApp auto-messaging for Tenant team — automation extended beyond Ambassador Club.</p></div>
+  </div>
+</div>
+
+</div></div>
+
+<script>
+/* PARTICLES – soft light dots */
+const cv=document.getElementById('pts'),cx=cv.getContext('2d');let ps=[];
+(function(){cv.width=innerWidth;cv.height=innerHeight;})();
+addEventListener('resize',()=>{cv.width=innerWidth;cv.height=innerHeight;});
+for(let i=0;i<55;i++)ps.push({x:Math.random()*innerWidth,y:Math.random()*innerHeight,r:Math.random()*2+.5,dx:(Math.random()-.5)*.18,dy:(Math.random()-.5)*.18,a:Math.random()*.18+.04,c:Math.random()>.5?'91,82,232':'0,168,138'});
+(function ap(){cx.clearRect(0,0,cv.width,cv.height);ps.forEach(p=>{cx.beginPath();cx.arc(p.x,p.y,p.r,0,Math.PI*2);cx.fillStyle=`rgba(${p.c},${p.a})`;cx.fill();p.x+=p.dx;p.y+=p.dy;if(p.x<0||p.x>cv.width)p.dx*=-1;if(p.y<0||p.y>cv.height)p.dy*=-1;});requestAnimationFrame(ap);})();
+
+/* SLIDE ENGINE */
+const slides=[...document.querySelectorAll('.slide')];
+const N=slides.length;
+const track=document.getElementById('track');
+const dotsEl=document.getElementById('dots');
+const pgrEl=document.getElementById('pgr');
+let cur=0,busy=false;
+track.style.height=(N*100)+'vh';
+slides.forEach((_,i)=>{const d=document.createElement('div');d.className='dot'+(i===0?' on':'');d.onclick=()=>go(i-cur);dotsEl.appendChild(d);});
+
+function setD(s){s.querySelectorAll('.a').forEach(el=>{el.style.transitionDelay=el.style.getPropertyValue('--d')||'0s';});}
+function clrD(s){s.querySelectorAll('.a').forEach(el=>{el.style.transitionDelay='0s';});}
+function activateSlide(i){
+  slides.forEach((s,idx)=>{
+    if(idx===i){setD(s);s.classList.add('on');
+      s.querySelectorAll('.sn[data-target]').forEach(el=>{
+        const t=parseInt(el.dataset.target),sf=el.dataset.suffix||'',dur=1800,s0=Date.now();
+        (function u(){const p=Math.min((Date.now()-s0)/dur,1),e=1-Math.pow(1-p,3);el.textContent=Math.floor(e*t).toLocaleString()+sf;if(p<1)requestAnimationFrame(u);})();
+      });
+      setTimeout(()=>s.querySelectorAll('.pbf').forEach(b=>{b.style.width=(b.dataset.w||0)+'%';}),200);
+    } else {clrD(s);s.classList.remove('on');}
+  });
+  document.querySelectorAll('.dot').forEach((d,i2)=>d.classList.toggle('on',i2===i));
+  pgrEl.textContent=(i+1)+' / '+N;
+}
+function go(dir){
+  const next=cur+dir;
+  if(busy||next<0||next>=N)return;
+  busy=true;cur=next;
+  track.style.transform=`translateY(-${cur*100}vh)`;
+  activateSlide(cur);buildCharts(cur);
+  setTimeout(()=>{busy=false;},740);
+}
+activateSlide(0);
+document.addEventListener('keydown',e=>{
+  if(['ArrowDown','ArrowRight',' '].includes(e.key)){e.preventDefault();go(1);}
+  if(['ArrowUp','ArrowLeft'].includes(e.key)){e.preventDefault();go(-1);}
+});
+let wt=null;
+document.addEventListener('wheel',e=>{e.preventDefault();if(wt)return;go(e.deltaY>0?1:-1);wt=setTimeout(()=>{wt=null;},920);},{passive:false});
+let ty0=null;
+document.addEventListener('touchstart',e=>{ty0=e.touches[0].clientY;},{passive:true});
+document.addEventListener('touchend',e=>{if(ty0===null)return;const dy=ty0-e.changedTouches[0].clientY;if(Math.abs(dy)>40)go(dy>0?1:-1);ty0=null;},{passive:true});
+
+/* CHARTS – light theme */
+const months=['Sep-23','Oct-23','Nov-23','Dec-23','Jan-24','Feb-24','Mar-24','Apr-24','May-24','Jun-24','Jul-24','Aug-24','Sep-24','Oct-24','Nov-24','Dec-24','Jan-25','Feb-25','Mar-25','Apr-25','May-25','Jun-25','Jul-25','Aug-25','Sep-25','Oct-25','Nov-25','Dec-25','Jan-26','Feb-26','Mar-26','Apr-26','May-26','Jun-26','Jul-26','Aug-26'];
+const mau=[288,245,294,342,357,456,556,508,524,679,926,957,803,774,705,674,643,492,639,608,572,772,774,646,623,546,692,719,1039,699,722,884,1046,1040,1191,1110];
+const props=[1021,1560,1400,1453,2042,2729,2999,3519,4464,4529,5010,5845,3974,5329,4945,5264,6410,5862,6852,6611,9803,10477,8849,6173,5116,5282,7139,9294,10656,13538,16349,16381,19384,20186,21734,20354];
+const pabM=['Oct-25','Nov-25','Dec-25','Jan-26','Feb-26','Mar-26','Apr-26','May-26','Jun-26','Jul-26','Aug-26'];
+const pabC=[120,143,187,226,230,224,214,242,256,323,321];
+const waD=['Apr 8','Apr 9','Apr 15','Apr 16','Apr 17','Apr 18','Apr 19','Apr 20','Apr 21','Apr 22','Apr 23','Apr 24','Apr 25','Apr 26','Apr 27','Apr 28','Apr 29','Apr 30','May 1','May 2','May 3','May 4','May 5','May 6','May 7','May 8','May 9','May 10','May 11','May 12','May 13','May 14','May 15','May 16','May 17','May 18','May 19','May 20','May 21','May 22','May 23','May 24','May 25','May 26','May 27','May 28','May 29','May 30','May 31','Jun 1','Jun 2','Jun 3','Jun 4','Jun 5','Jun 6','Jun 7','Jun 8','Jun 9','Jun 10','Jun 11','Jun 12','Jun 13','Jun 14','Jun 15','Jun 16','Jun 17','Jun 18','Jun 19','Jun 20','Jun 21','Jun 22','Jun 23','Jun 24','Jun 25','Jun 26','Jun 27','Jun 28','Jun 29','Jun 30','Jul 1','Jul 2','Jul 3','Jul 4','Jul 5','Jul 6','Jul 7','Jul 8','Jul 9','Jul 10','Jul 11','Jul 12','Jul 13','Jul 14','Jul 15','Jul 16','Jul 17','Jul 18','Jul 19','Jul 20','Jul 21','Jul 22','Jul 23','Jul 24','Jul 25','Jul 26','Jul 27','Jul 28','Jul 29','Jul 30','Jul 31','Aug 1','Aug 2','Aug 3','Aug 4','Aug 5','Aug 6','Aug 7','Aug 8','Aug 9','Aug 10','Aug 11','Aug 12','Aug 13','Aug 14','Aug 15','Aug 16','Aug 17','Aug 18','Aug 19','Aug 20','Aug 21','Aug 22','Aug 23','Aug 24','Aug 25','Aug 26','Aug 27','Aug 28','Aug 29','Aug 30'];
+const waU=[7,2,1,1,42,57,5,58,88,62,61,78,88,80,107,116,128,169,148,122,121,221,169,133,283,311,348,296,353,472,376,473,556,664,465,442,619,586,579,428,567,462,502,419,405,283,306,331,637,407,431,375,192,186,355,696,503,390,699,690,608,636,836,470,1255,844,800,1201,3228,5456,3116,3319,6577,6255,5105,7426,638,4006,5895,2906,522,1208,2226,1769,1590,1255,1610,1239,1069,1551,1960,1802,1546,1092,1431,1436,2265,1556,1868,1812,1746,1721,1634,2675,2413,2138,1962,1792,1708,1578,2718,2500,2223,2273,2232,2059,1898,2978,2119,2228,2517,2476,2207,1743,1866,2339,2509,2526,2362,2217,1455,3147,3351,3048,2513,2274,2188,2108,3299,3164];
+const waC=waD.map((_,i)=>i<49?'rgba(91,82,232,.75)':i<79?'rgba(0,168,138,.75)':i<110?'rgba(214,58,122,.75)':'rgba(212,102,10,.75)');
+const pabCl=pabC.map((_,i)=>i>=9?'rgba(0,168,138,.85)':i>=7?'rgba(91,82,232,.85)':i>=4?'rgba(214,58,122,.75)':'rgba(212,102,10,.8)');
+
+const base={responsive:true,maintainAspectRatio:false,animation:{duration:1600,easing:'easeInOutQuart'},
+  plugins:{legend:{display:false},tooltip:{backgroundColor:'#16163a',borderColor:'rgba(91,82,232,.3)',borderWidth:1,titleColor:'#fff',bodyColor:'#aaa',padding:10}},
+  scales:{
+    x:{grid:{color:'rgba(91,82,232,.07)'},ticks:{color:'#6570a0',maxRotation:45,font:{size:9}}},
+    y:{grid:{color:'rgba(91,82,232,.07)'},ticks:{color:'#6570a0',font:{size:10}}}
+  }
+};
+const built={};
+function buildCharts(i){
+  if(i===3&&!built[3]){built[3]=1;
+    new Chart(document.getElementById('mauChart'),{type:'line',data:{labels:months,datasets:[{label:'MAU',data:mau,borderColor:'#5b52e8',backgroundColor:'rgba(91,82,232,.1)',fill:true,tension:.4,pointRadius:3,pointHoverRadius:7,borderWidth:2.5,pointBackgroundColor:'#5b52e8'}]},options:base});
+  }
+  if(i===4&&!built[4]){built[4]=1;
+    new Chart(document.getElementById('propChart'),{type:'bar',data:{labels:months,datasets:[{label:'Properties',data:props,backgroundColor:months.map((_,j)=>`hsla(${170+j*2},60%,42%,.8)`),borderRadius:5,borderSkipped:false}]},options:base});
+  }
+  if(i===5&&!built[5]){built[5]=1;
+    new Chart(document.getElementById('dualChart'),{type:'line',data:{labels:months,datasets:[
+      {label:'MAU',data:mau,borderColor:'#5b52e8',backgroundColor:'rgba(91,82,232,.08)',fill:true,tension:.4,yAxisID:'y',borderWidth:2.5,pointRadius:2,pointHoverRadius:6},
+      {label:'Properties',data:props,borderColor:'#00a88a',backgroundColor:'rgba(0,168,138,.08)',fill:true,tension:.4,yAxisID:'y1',borderWidth:2.5,pointRadius:2,pointHoverRadius:6}
+    ]},options:{...base,plugins:{...base.plugins,legend:{display:true,labels:{color:'#6570a0',font:{size:11},boxWidth:14,padding:14}}},
+      scales:{x:{grid:{color:'rgba(91,82,232,.07)'},ticks:{color:'#6570a0',maxRotation:45,font:{size:9}}},
+        y:{type:'linear',position:'left',grid:{color:'rgba(91,82,232,.07)'},ticks:{color:'#5b52e8',font:{size:10}}},
+        y1:{type:'linear',position:'right',grid:{drawOnChartArea:false},ticks:{color:'#00a88a',font:{size:10}}}}}});
+  }
+  if(i===6&&!built[6]){built[6]=1;
+    new Chart(document.getElementById('paidAbChart'),{type:'bar',data:{labels:pabM,datasets:[
+      {label:'Paid AB Count',data:pabC,backgroundColor:pabCl,borderRadius:12,borderSkipped:false,order:2},
+      {label:'Trend',data:pabC,type:'line',borderColor:'rgba(201,150,10,.85)',backgroundColor:'rgba(201,150,10,.08)',fill:true,tension:.45,pointBackgroundColor:'#c9960a',pointRadius:6,pointHoverRadius:9,borderWidth:2.5,order:1,yAxisID:'y'}
+    ]},options:{...base,plugins:{...base.plugins,legend:{display:false}},
+      scales:{x:{grid:{color:'rgba(91,82,232,.07)'},ticks:{color:'#6570a0',font:{size:11}}},
+        y:{grid:{color:'rgba(91,82,232,.07)'},ticks:{color:'#6570a0',font:{size:10}},min:80}}}});
+  }
+  if(i===8&&!built[8]){built[8]=1;
+    new Chart(document.getElementById('waChart'),{type:'bar',data:{labels:waD,datasets:[{label:'Daily COs',data:waU,backgroundColor:waC,borderRadius:3,borderSkipped:false}]},
+      options:{...base,plugins:{...base.plugins,tooltip:{...base.plugins.tooltip,callbacks:{label:c=>` ${c.parsed.y.toLocaleString()} COs`}}}}});
+  }
+}
+</script>
+</body>
+</html>
